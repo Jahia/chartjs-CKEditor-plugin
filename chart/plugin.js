@@ -12,7 +12,7 @@
 		// Required plugins
 		requires: 'widget,dialog,colordialog',
 		// Name of the file in the "icons" folder
-		icons: 'chartBar,chartRound',
+		icons: 'chartBar,chartPie',
 
 		// Load library that renders charts inside CKEditor, if Chart object is not already available.
 		afterInit: function(editor) {
@@ -48,8 +48,8 @@
 					'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js') + '"><\/script><\/head>');
 			});
 
-			// The dialog window to insert / edit a chart type round.
-			CKEDITOR.dialog.add('chartRound', function(editor) {
+			// The dialog window to insert / edit a chart type pie.
+			CKEDITOR.dialog.add('chartPie', function(editor) {
 				var dialog = {
 					title: editor.lang.chart.titleDialogBox,
 					minWidth: 350,
@@ -60,7 +60,7 @@
 
 						if (!widget)
 							return;
-						
+
 						// Merge data
 						for (var j = 0 ; j < inputRows ; j++) {
 							if (widget.data.values[j]) {
@@ -82,7 +82,7 @@
 
 						for (var j = 0 ; j < inputRows ; j++) {
 							if (this.getValueOf('data', 'label' + j) != '' && this.getValueOf('data', 'value' + j) != '') {
-								values.push({ 
+								values.push({
 									label: this.getValueOf('data', 'label' + j),
 									value: parseFloat(this.getValueOf('data', 'value' + j)),
 									color: this.getValueOf('data', 'color' + j),
@@ -109,8 +109,8 @@
 									labelLayout: 'horizontal',
 									labelStyle: 'display:block;padding: 0 6px;',
 									items: [[editor.lang.chart.labelChartPie, 'pie'],
-											[editor.lang.chart.labelChartDoughnut, 'doughnut'],
-											[editor.lang.chart.labelChartPolar, 'polar']],
+										[editor.lang.chart.labelChartDoughnut, 'doughnut'],
+										[editor.lang.chart.labelChartPolar, 'polar']],
 									'default': 'pie',
 									style: 'margin-bottom:10px',
 									setup: function(widget) {
@@ -310,7 +310,7 @@
 							return;
 
 						var datasetsSize = widget.data.values.datasets.length;
-						
+
 						for (var j = 0 ; j < inputRows ; j++) {
 							if (widget.data.values.labels[j] != undefined) {
 								this.setValueOf('data', 'label' + j, widget.data.values.labels[j]);
@@ -344,7 +344,7 @@
 						for (var j = 0 ; j < inputRows ; j++) {
 							if (this.getValueOf('data', 'label' + j)) {
 								labels.push(this.getValueOf('data', 'label' + j));
-								
+
 								var value1 = (this.getValueOf('data', 'dataset1_value' + j) != '') ?  parseFloat(this.getValueOf('data', 'dataset1_value' + j)): 0;
 								dataset1.push(value1);
 
@@ -367,7 +367,7 @@
 						if (dataset2.length > 0) {
 							addDatasetToValues(this, chartModel, values, 1, dataset2);
 						}
-						
+
 						widget.setData('values', values);
 						widget.setData('chart', chartModel);
 						widget.setData('canvasHeight', this.getValueOf('options', 'canvasHeight'));
@@ -388,8 +388,8 @@
 									labelLayout: 'horizontal',
 									labelStyle: 'display:block;padding: 0 6px;',
 									items: [[editor.lang.chart.labelChartBar, 'bar'],
-											[editor.lang.chart.labelChartLine, 'line'],
-											[editor.lang.chart.labelChartRadar, 'radar']],
+										[editor.lang.chart.labelChartLine, 'line'],
+										[editor.lang.chart.labelChartRadar, 'radar']],
 									'default': 'bar',
 									style: 'margin-bottom:10px',
 									setup: function(widget) {
@@ -579,15 +579,16 @@
 				}
 			};
 
-			// Here we define the widget for chart type round.
-			editor.widgets.add('chartRound', {
-				button: editor.lang.chart.buttonChartRound,
-				dialog: 'chartRound',
+			// Here we define the widget for chart type pie.
+			editor.widgets.add('chartPie', {
+				button: editor.lang.chart.buttonChartPie,
+				dialog: 'chartPie',
 				template:'<div class="chartjs" data-chart="pie" data-chart-height="200" data-chart-width="200"><canvas height="200" width="200"></canvas><div class="chartjs-legend"></div>' +
-							'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js') + '"><\/script>' +
-							'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js') + '"><\/script></div>',
+				'<link href="' + CKEDITOR.getUrl(plugin.path + 'chart.css') + '" rel="stylesheet" type="text/css">' +
+				'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js') + '" type="text/javascript"><\/script>' +
+				'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js') + '" type="text/javascript"><\/script></div>',
 				styleableElements: 'div',
-				pathName: 'chartRound',
+				pathName: 'chartPie',
 
 				init: function() {
 					if(this.element.data('chart-value')) {
@@ -609,7 +610,7 @@
 
 					if (!this.data.values)
 						return;
-					
+
 					var canvas = editor.document.createElement('canvas', {height: this.data.canvasHeight, width: this.data.canvasWidth});
 					canvas.replace(this.element.getChild(0));
 					canvas = canvas.$;
@@ -652,8 +653,6 @@
 					if (!this.data.values)
 						return;
 
-					console.log(element.attributes['class']);
-
 					// Create the downcasted form of a widget (a simple <div>).
 					var el = new CKEDITOR.htmlParser.element('div', {
 						// We could pass here hardcoded "chartjs" class, but this way we would lose here all the classes applied through the Styles dropdown.
@@ -662,12 +661,12 @@
 						'data-chart': this.data.chart,
 						'data-chart-height': this.data.canvasHeight,
 						'data-chart-width': this.data.canvasWidth,
-						'data-chart-value': CKEDITOR.tools.htmlEncodeAttr(JSON.stringify(this.data.values))
+						'data-chart-value': JSON.stringify(this.data.values)
 					});
 					return el;
 				}
 
- 			})
+			});
 
 			// Here we define the widget for chart type bar.
 			editor.widgets.add('chartBar', {
@@ -677,8 +676,9 @@
 				dialog : 'chartBar',
 				// Based on this template a widget will be created automatically once user exists the dialog window.
 				template:'<div class="chartjs" data-chart="bar" data-chart-height="200" data-chart-width="300"><canvas height="200" width="300"></canvas><div class="chartjs-legend"></div>' +
-							'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js') + '"><\/script>' +
-							'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js') + '"><\/script></div>',
+				'<link href="' + CKEDITOR.getUrl(plugin.path + 'chart.css') + '" rel="stylesheet" type="text/css">' +
+				'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js') + '" type="text/javascript"><\/script>' +
+				'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js') + '" type="text/javascript"><\/script></div>',
 				// In order to provide styles (classes) for this widget through config.stylesSet we need to explicitly define the stylable elements.
 				styleableElements: 'div',
 				// Name to be displayed in the elements path (at the bottom of CKEditor),
@@ -745,10 +745,6 @@
 						// And make place for a legend.
 						var div = new CKEDITOR.htmlParser.element('div', {'class': 'chartjs-legend'});
 						element.add(div);
-						var script1 = new CKEDITOR.htmlParser.element('script' , {src: CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js')});
-						element.add(script1);
-						var script2 = new CKEDITOR.htmlParser.element('script' , {src: CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js')});
-						element.add(script2);
 						return element;
 					}
 				},
@@ -767,13 +763,8 @@
 						'data-chart': this.data.chart,
 						'data-chart-height': this.data.canvasHeight,
 						'data-chart-width': this.data.canvasWidth,
-						'data-chart-value': CKEDITOR.tools.htmlEncodeAttr(JSON.stringify(this.data.values))
+						'data-chart-value': JSON.stringify(this.data.values)
 					});
-
-					var script1 = new CKEDITOR.htmlParser.element('script' , {src: CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js')});
-					el.add(script1);
-					var script2 = new CKEDITOR.htmlParser.element('script' , {src: CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js')});
-					el.add(script2);
 					return el;
 				}
 			});
@@ -799,7 +790,7 @@ function setColorsValue(that, widget, tabNumber) {
 }
 
 /**
- *	This method add dataset to the values object 
+ *	This method add dataset to the values object
  */
 function addDatasetToValues(that, chartModel, values, tabNumber, dataset) {
 	if (chartModel == 'bar') {
@@ -831,289 +822,289 @@ function addDatasetToValues(that, chartModel, values, tabNumber, dataset) {
 function generateColorTabs(editor, dialog, tabNumber) {
 	// default colors we will inject in the tabs
 	var defaultColors = [
-	{
-		fillColor: 'rgba(220,220,220,0.2)',
-		strokeColor: 'rgba(220,220,220,1)',
-		highlightFill: 'rgba(220,220,220,0.75)',
-		highlightStroke: 'rgba(220,220,220,1)',
-		pointColor: "rgba(220,220,220,1)",
-		pointHighlightStroke: "rgba(220,220,220,1)"
-	},
-	{
+		{
+			fillColor: 'rgba(220,220,220,0.2)',
+			strokeColor: 'rgba(220,220,220,1)',
+			highlightFill: 'rgba(220,220,220,0.75)',
+			highlightStroke: 'rgba(220,220,220,1)',
+			pointColor: "rgba(220,220,220,1)",
+			pointHighlightStroke: "rgba(220,220,220,1)"
+		},
+		{
 			fillColor: 'rgba(151,187,205,0.2)',
 			strokeColor: 'rgba(151,187,205,1)',
 			highlightFill: 'rgba(151,187,205,0.75)',
 			highlightStroke: 'rgba(151,187,205,1)',
 			pointColor: "rgba(151,187,205,1)",
 			pointHighlightStroke: "rgba(151,187,205,1)"
-	}];
+		}];
 
 	// tabs contents
 	dialog.contents[tabNumber + 1].elements.push(
-	{
-		type: 'fieldset',
-		label: editor.lang.chart.labelCoreColor,
-		children: [
-			{
-				type: 'hbox',
-				children: [
-					{
-						type: 'text',
-						id: 'fillColor',
-						label: editor.lang.chart.labelFillColor,
-						'default': defaultColors[tabNumber].fillColor,
-						labelLayout: 'vertical',
-						width: '150px'
-					},
-					{
-						type: 'button',
-						id: 'fillColorChoose',
-						'class': 'colorChooser',
-						label: editor.lang.chart.buttonPicker,
-						onLoad: function() {
-							this.getElement().getParent().setStyle('vertical-align', 'bottom');
-							this.getElement().getParent().setStyle('width', '22%');
-							this.getElement().setStyle('width', '100px');
-							this.getElement().setStyle('float', 'right');
-							this.getElement().setStyle('margin-right', '25px');
+		{
+			type: 'fieldset',
+			label: editor.lang.chart.labelCoreColor,
+			children: [
+				{
+					type: 'hbox',
+					children: [
+						{
+							type: 'text',
+							id: 'fillColor',
+							label: editor.lang.chart.labelFillColor,
+							'default': defaultColors[tabNumber].fillColor,
+							labelLayout: 'vertical',
+							width: '150px'
 						},
-						onClick: function() {
-							editor.getColorFromDialog(function(a) {
-								a && this.getDialog().getContentElement('colors' + tabNumber, 'fillColor').setValue(a);
-								this.focus()
-							}, this)
-						}
-					},
-					{
-						type: 'text',
-						id: 'strokeColor',
-						label: editor.lang.chart.labelStrokeColor,
-						'default': defaultColors[tabNumber].strokeColor,
-						labelLayout: 'vertical',
-						width: '150px'
-					},
-					{
-						type: 'button',
-						id: 'strokeColorChoose',
-						'class': 'colorChooser',
-						label: editor.lang.chart.buttonPicker,
-						onLoad: function() {
-							this.getElement().getParent().setStyle('vertical-align', 'bottom');
-							this.getElement().setStyle('width', '100px');
-							this.getElement().setStyle('float', 'right');
+						{
+							type: 'button',
+							id: 'fillColorChoose',
+							'class': 'colorChooser',
+							label: editor.lang.chart.buttonPicker,
+							onLoad: function() {
+								this.getElement().getParent().setStyle('vertical-align', 'bottom');
+								this.getElement().getParent().setStyle('width', '22%');
+								this.getElement().setStyle('width', '100px');
+								this.getElement().setStyle('float', 'right');
+								this.getElement().setStyle('margin-right', '25px');
+							},
+							onClick: function() {
+								editor.getColorFromDialog(function(a) {
+									a && this.getDialog().getContentElement('colors' + tabNumber, 'fillColor').setValue(a);
+									this.focus()
+								}, this)
+							}
 						},
-						onClick: function() {
-							editor.getColorFromDialog(function(a) {
-								a && this.getDialog().getContentElement('colors' + tabNumber, 'strokeColor').setValue(a);
-								this.focus()
-							}, this)
+						{
+							type: 'text',
+							id: 'strokeColor',
+							label: editor.lang.chart.labelStrokeColor,
+							'default': defaultColors[tabNumber].strokeColor,
+							labelLayout: 'vertical',
+							width: '150px'
+						},
+						{
+							type: 'button',
+							id: 'strokeColorChoose',
+							'class': 'colorChooser',
+							label: editor.lang.chart.buttonPicker,
+							onLoad: function() {
+								this.getElement().getParent().setStyle('vertical-align', 'bottom');
+								this.getElement().setStyle('width', '100px');
+								this.getElement().setStyle('float', 'right');
+							},
+							onClick: function() {
+								editor.getColorFromDialog(function(a) {
+									a && this.getDialog().getContentElement('colors' + tabNumber, 'strokeColor').setValue(a);
+									this.focus()
+								}, this)
+							}
 						}
-					}
-				]
-			}
-		]
-	},
-	{
-		type: 'hbox',
-		children: [
-			{
-				type: 'fieldset',
-				label: editor.lang.chart.labelBarColors,
-				children: [
-					{
-						type: 'hbox',
-						style: 'margin-bottom: 15px',
-						children: [
-							{
-								type: 'text',
-								id: 'highlightFill',
-								label: editor.lang.chart.labelHighlihtFill,
-								'default': defaultColors[tabNumber].highlightFill,
-								labelLayout: 'vertical',
-								width: '150px'
-							},
-							{
-								type: 'button',
-								id: 'highlightFillColorChoose',
-								'class': 'colorChooser',
-								label: editor.lang.chart.buttonPicker,
-								onLoad: function() {
-									this.getElement().getParent().setStyle('vertical-align', 'bottom');
-									this.getElement().setStyle('width', '100px');
-									this.getElement().setStyle('float', 'right');
+					]
+				}
+			]
+		},
+		{
+			type: 'hbox',
+			children: [
+				{
+					type: 'fieldset',
+					label: editor.lang.chart.labelBarColors,
+					children: [
+						{
+							type: 'hbox',
+							style: 'margin-bottom: 15px',
+							children: [
+								{
+									type: 'text',
+									id: 'highlightFill',
+									label: editor.lang.chart.labelHighlihtFill,
+									'default': defaultColors[tabNumber].highlightFill,
+									labelLayout: 'vertical',
+									width: '150px'
 								},
-								onClick: function() {
-									editor.getColorFromDialog(function(a) {
-										a && this.getDialog().getContentElement('colors' + tabNumber, 'highlightFill').setValue(a);
-										this.focus()
-									}, this)
+								{
+									type: 'button',
+									id: 'highlightFillColorChoose',
+									'class': 'colorChooser',
+									label: editor.lang.chart.buttonPicker,
+									onLoad: function() {
+										this.getElement().getParent().setStyle('vertical-align', 'bottom');
+										this.getElement().setStyle('width', '100px');
+										this.getElement().setStyle('float', 'right');
+									},
+									onClick: function() {
+										editor.getColorFromDialog(function(a) {
+											a && this.getDialog().getContentElement('colors' + tabNumber, 'highlightFill').setValue(a);
+											this.focus()
+										}, this)
+									}
 								}
-							}
-						]
-					},
-					{
-						type: 'hbox',
-						children: [
-							{
-								type: 'text',
-								id: 'highlightStroke',
-								label: editor.lang.chart.labelHighlihtStroke,
-								'default': defaultColors[tabNumber].highlightStroke,
-								labelLayout: 'vertical',
-								width: '150px'
-							},
-							{
-								type: 'button',
-								id: 'highlightStrokeColorChoose',
-								'class': 'colorChooser',
-								label: editor.lang.chart.buttonPicker,
-								onLoad: function() {
-									this.getElement().getParent().setStyle('vertical-align', 'bottom');
-									this.getElement().setStyle('width', '100px');
-									this.getElement().setStyle('float', 'right');
+							]
+						},
+						{
+							type: 'hbox',
+							children: [
+								{
+									type: 'text',
+									id: 'highlightStroke',
+									label: editor.lang.chart.labelHighlihtStroke,
+									'default': defaultColors[tabNumber].highlightStroke,
+									labelLayout: 'vertical',
+									width: '150px'
 								},
-								onClick: function() {
-									editor.getColorFromDialog(function(a) {
-										a && this.getDialog().getContentElement('colors' + tabNumber, 'highlightStroke').setValue(a);
-										this.focus()
-									}, this)
+								{
+									type: 'button',
+									id: 'highlightStrokeColorChoose',
+									'class': 'colorChooser',
+									label: editor.lang.chart.buttonPicker,
+									onLoad: function() {
+										this.getElement().getParent().setStyle('vertical-align', 'bottom');
+										this.getElement().setStyle('width', '100px');
+										this.getElement().setStyle('float', 'right');
+									},
+									onClick: function() {
+										editor.getColorFromDialog(function(a) {
+											a && this.getDialog().getContentElement('colors' + tabNumber, 'highlightStroke').setValue(a);
+											this.focus()
+										}, this)
+									}
 								}
-							}
-						]
-					}
-				]
-			},
-			{
-				type: 'fieldset',
-				label: editor.lang.chart.labelLineRadarColors,
-				children: [
-					{
-						type: 'hbox',
-						style: 'margin-bottom: 15px',
-						children: [
-							{
-								type: 'text',
-								id: 'pointColor',
-								label: editor.lang.chart.labelPointColor,
-								'default': defaultColors[tabNumber].pointColor,
-								labelLayout: 'vertical',
-								width: '150px'
-							},
-							{
-								type: 'button',
-								id: 'pointColorChoose',
-								'class': 'colorChooser',
-								label: editor.lang.chart.buttonPicker,
-								onLoad: function() {
-									this.getElement().getParent().setStyle('vertical-align', 'bottom');
-									this.getElement().setStyle('width', '100px');
-									this.getElement().setStyle('float', 'right');
+							]
+						}
+					]
+				},
+				{
+					type: 'fieldset',
+					label: editor.lang.chart.labelLineRadarColors,
+					children: [
+						{
+							type: 'hbox',
+							style: 'margin-bottom: 15px',
+							children: [
+								{
+									type: 'text',
+									id: 'pointColor',
+									label: editor.lang.chart.labelPointColor,
+									'default': defaultColors[tabNumber].pointColor,
+									labelLayout: 'vertical',
+									width: '150px'
 								},
-								onClick: function() {
-									editor.getColorFromDialog(function(a) {
-										a && this.getDialog().getContentElement('colors' + tabNumber, 'pointColor').setValue(a);
-										this.focus()
-									}, this)
+								{
+									type: 'button',
+									id: 'pointColorChoose',
+									'class': 'colorChooser',
+									label: editor.lang.chart.buttonPicker,
+									onLoad: function() {
+										this.getElement().getParent().setStyle('vertical-align', 'bottom');
+										this.getElement().setStyle('width', '100px');
+										this.getElement().setStyle('float', 'right');
+									},
+									onClick: function() {
+										editor.getColorFromDialog(function(a) {
+											a && this.getDialog().getContentElement('colors' + tabNumber, 'pointColor').setValue(a);
+											this.focus()
+										}, this)
+									}
 								}
-							}
-						]
-					},
-					{
-						type: 'hbox',
-						style: 'margin-bottom: 15px',
-						children: [
-							{
-								type: 'text',
-								id: 'pointStrokeColor',
-								label: editor.lang.chart.labelPointStrokeColor,
-								'default': '#fff',
-								labelLayout: 'vertical',
-								width: '150px'
-							},
-							{
-								type: 'button',
-								id: 'pointStrokeColorChoose',
-								'class': 'colorChooser',
-								label: editor.lang.chart.buttonPicker,
-								onLoad: function() {
-									this.getElement().getParent().setStyle('vertical-align', 'bottom');
-									this.getElement().setStyle('width', '100px');
-									this.getElement().setStyle('float', 'right');
+							]
+						},
+						{
+							type: 'hbox',
+							style: 'margin-bottom: 15px',
+							children: [
+								{
+									type: 'text',
+									id: 'pointStrokeColor',
+									label: editor.lang.chart.labelPointStrokeColor,
+									'default': '#fff',
+									labelLayout: 'vertical',
+									width: '150px'
 								},
-								onClick: function() {
-									editor.getColorFromDialog(function(a) {
-										a && this.getDialog().getContentElement('colors' + tabNumber, 'pointStrokeColor').setValue(a);
-										this.focus()
-									}, this)
+								{
+									type: 'button',
+									id: 'pointStrokeColorChoose',
+									'class': 'colorChooser',
+									label: editor.lang.chart.buttonPicker,
+									onLoad: function() {
+										this.getElement().getParent().setStyle('vertical-align', 'bottom');
+										this.getElement().setStyle('width', '100px');
+										this.getElement().setStyle('float', 'right');
+									},
+									onClick: function() {
+										editor.getColorFromDialog(function(a) {
+											a && this.getDialog().getContentElement('colors' + tabNumber, 'pointStrokeColor').setValue(a);
+											this.focus()
+										}, this)
+									}
 								}
-							}
-						]
-					},
-					{
-						type: 'hbox',
-						style: 'margin-bottom: 15px',
-						children: [
-							{
-								type: 'text',
-								id: 'pointHighlightFill',
-								label: editor.lang.chart.labelPointHighlightFill,
-								'default': '#fff',
-								labelLayout: 'vertical',
-								width: '150px'
-							},
-							{
-								type: 'button',
-								id: 'pointHighlightFillColorChoose',
-								'class': 'colorChooser',
-								label: editor.lang.chart.buttonPicker,
-								onLoad: function() {
-									this.getElement().getParent().setStyle('vertical-align', 'bottom');
-									this.getElement().setStyle('width', '100px');
-									this.getElement().setStyle('float', 'right');
+							]
+						},
+						{
+							type: 'hbox',
+							style: 'margin-bottom: 15px',
+							children: [
+								{
+									type: 'text',
+									id: 'pointHighlightFill',
+									label: editor.lang.chart.labelPointHighlightFill,
+									'default': '#fff',
+									labelLayout: 'vertical',
+									width: '150px'
 								},
-								onClick: function() {
-									editor.getColorFromDialog(function(a) {
-										a && this.getDialog().getContentElement('colors' + tabNumber, 'pointHighlightFill').setValue(a);
-										this.focus()
-									}, this)
+								{
+									type: 'button',
+									id: 'pointHighlightFillColorChoose',
+									'class': 'colorChooser',
+									label: editor.lang.chart.buttonPicker,
+									onLoad: function() {
+										this.getElement().getParent().setStyle('vertical-align', 'bottom');
+										this.getElement().setStyle('width', '100px');
+										this.getElement().setStyle('float', 'right');
+									},
+									onClick: function() {
+										editor.getColorFromDialog(function(a) {
+											a && this.getDialog().getContentElement('colors' + tabNumber, 'pointHighlightFill').setValue(a);
+											this.focus()
+										}, this)
+									}
 								}
-							}
-						]
-					},
-					{
-						type: 'hbox',
-						children: [
-							{
-								type: 'text',
-								id: 'pointHighlightStroke',
-								label: 'Point highlight stroke',
-								'default': defaultColors[tabNumber].pointHighlightStroke,
-								labelLayout: 'vertical',
-								width: '150px'
-							},
-							{
-								type: 'button',
-								id: 'pointHighlightStrokeColorChoose',
-								'class': 'colorChooser',
-								label: editor.lang.chart.buttonPicker,
-								onLoad: function() {
-									this.getElement().getParent().setStyle('vertical-align', 'bottom');
-									this.getElement().setStyle('width', '100px');
-									this.getElement().setStyle('float', 'right');
+							]
+						},
+						{
+							type: 'hbox',
+							children: [
+								{
+									type: 'text',
+									id: 'pointHighlightStroke',
+									label: 'Point highlight stroke',
+									'default': defaultColors[tabNumber].pointHighlightStroke,
+									labelLayout: 'vertical',
+									width: '150px'
 								},
-								onClick: function() {
-									editor.getColorFromDialog(function(a) {
-										a && this.getDialog().getContentElement('colors' + tabNumber, 'pointHighlightStroke').setValue(a);
-										this.focus()
-									}, this)
+								{
+									type: 'button',
+									id: 'pointHighlightStrokeColorChoose',
+									'class': 'colorChooser',
+									label: editor.lang.chart.buttonPicker,
+									onLoad: function() {
+										this.getElement().getParent().setStyle('vertical-align', 'bottom');
+										this.getElement().setStyle('width', '100px');
+										this.getElement().setStyle('float', 'right');
+									},
+									onClick: function() {
+										editor.getColorFromDialog(function(a) {
+											a && this.getDialog().getContentElement('colors' + tabNumber, 'pointHighlightStroke').setValue(a);
+											this.focus()
+										}, this)
+									}
 								}
-							}
-						]
-					}
-				]
-			}
-		]
-	});
+							]
+						}
+					]
+				}
+			]
+		});
 }
 
 /**
@@ -1127,19 +1118,19 @@ function renderCharts(canvas, chartModel, legend, values) {
 	// Render Line chart.
 	if (chartModel == 'bar') {
 		var currentChart = chart.Bar(values);
-		
+
 		// For "Bar" type legend makes sense only with more than one dataset.
 		setLegend(values, legend, currentChart);
 	}
 	else if (chartModel == 'line') {
 		var currentChart = chart.Line(values);
-		
+
 		// For "Line" type legend makes sense only with more than one dataset.
 		setLegend(values, legend, currentChart)
 	}
 	else if (chartModel == 'radar') {
 		var currentChart = chart.Radar(values);
-		
+
 		// For "Radar" type legend makes sense only with more than one dataset.
 		setLegend(values, legend, currentChart)
 	}

@@ -1,7 +1,7 @@
 CKEDITOR.plugins.setLang('chart', 'en',{
 	'alertValidNumber': 'Enter a valid number.',
-	'buttonChartBar': 'Insert chart others types',
-	'buttonChartRound': 'Insert chart rounds types',
+	'buttonChartBar': 'Insert chart &middot; other types',
+	'buttonChartPie': 'Insert chart &middot; pie types',
 	'buttonPicker': 'Pick a color',
 	'labl': 'Label:',
 	'labelBarColors': 'Bar colors',
@@ -32,7 +32,7 @@ CKEDITOR.plugins.setLang('chart', 'en',{
 	'textInfo2': 'Here you can change default colors for the first data set.<br />You can use RGBA, RGB, HEX, HSL or simply use the picker.',
 	'textInfo3': 'Here you can change default colors for the second data set.<br />You can use RGBA, RGB, HEX, HSL or simply use the picker.',
 	'textInfo4': 'Here you can manage options for your chart. (e.g: size)<br />The size will be use only in the final document or in the preview.',
-	'textInfo5': 'Labels for the data sets will appear only if you use both of them.<br /><br />',
+	'textInfo5': 'Labels for the data sets will be displayed only if you use both of them.<br /><br />',
 	'tittleChartOptions': 'Chart option',
 	'titleColorDataSet': 'Colors data set',
 	'titleDataSet': 'Data set',

@@ -1,7 +1,7 @@
 CKEDITOR.plugins.setLang( 'chart', 'fr',{
 	'alertValidNumber': 'Entrer un nombre',
-	'buttonChartBar': 'Insérer un graphique autres types',
-	'buttonChartRound': 'Insérer un graphique types circulaires',
+	'buttonChartBar': 'Insérer un graphique &middot; autres types',
+	'buttonChartPie': 'Insérer un graphique &middot; types circulaires',
 	'buttonPicker': 'Sélectionner',
 	'labl': 'Label :',
 	'labelBarColors': 'Couleurs histogramme',
