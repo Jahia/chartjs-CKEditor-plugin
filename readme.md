@@ -1,6 +1,6 @@
 # chart.js CKEditor plugin
 
-This plugin is adding the possibility to create chart form CKEditor in Digital Factory, it's based on [chart.js](http://www.chartjs.org) library.
+This plugin is adding the possibility to create chart from CKEditor in Digital Factory, it's based on [chart.js](http://www.chartjs.org) library.
 
 ### INSTALLATION
 
