@@ -6,7 +6,7 @@ This plugin is adding the possibility to create chart from CKEditor in Digital F
 
 To install this plugin you need to copy the chart folder to your ckeditor module under `javascript/plugins`,
  then deploy your CKEditor module and go to `Jahia tools > CKEditor Custom Configuration`
- and add `'widget,lineutils,chart'` to `config.extraPlugins` and `,'ChartBar','ChartRound'` to `config.toolbar_Full[8]`.
+ and add `'widget,lineutils,chart'` to `config.extraPlugins` and `,'ChartBar','ChartPie'` to `config.toolbar_Full[8]`.
  Or simply copy the following example :
 
 ```
