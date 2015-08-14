@@ -10,10 +10,10 @@ To install this plugin you need to copy the chart folder to your ckeditor module
  Or simply copy the following example :
 
 ```
-    CKEDITOR.editorConfig = function( config ) {
-        config.extraPlugins='widget,lineutils,chart';
-        config.toolbar_Full[8]=['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','ChartBar','ChartRound'];
-    }
+CKEDITOR.editorConfig = function( config ) {
+    config.extraPlugins='widget,lineutils,chart';
+    config.toolbar_Full[8]=['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','ChartBar','ChartPie'];
+}
 ```
 
 **Carefull**
