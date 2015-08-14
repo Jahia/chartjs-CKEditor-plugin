@@ -584,9 +584,9 @@
 				button: editor.lang.chart.buttonChartPie,
 				dialog: 'chartPie',
 				template:'<div class="chartjs" data-chart="pie" data-chart-height="200" data-chart-width="200"><canvas height="200" width="200"></canvas><div class="chartjs-legend"></div>' +
-				'<link href="' + CKEDITOR.getUrl(plugin.path + 'chart.css') + '" rel="stylesheet" type="text/css">' +
-				'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js') + '" type="text/javascript"><\/script>' +
-				'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js') + '" type="text/javascript"><\/script></div>',
+				'<jahia:resource href="' + CKEDITOR.getUrl(plugin.path + 'chart.css') + '" rel="stylesheet" type="css">' +
+				'<jahia:resource src="' + CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js') + '" type="javascript"><\/jahia:resource>' +
+				'<jahia:resource src="' + CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js') + '" type="javascript"><\/jahia:resource></div>',
 				styleableElements: 'div',
 				pathName: 'chartPie',
 
@@ -676,9 +676,9 @@
 				dialog : 'chartBar',
 				// Based on this template a widget will be created automatically once user exists the dialog window.
 				template:'<div class="chartjs" data-chart="bar" data-chart-height="200" data-chart-width="300"><canvas height="200" width="300"></canvas><div class="chartjs-legend"></div>' +
-				'<link href="' + CKEDITOR.getUrl(plugin.path + 'chart.css') + '" rel="stylesheet" type="text/css">' +
-				'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js') + '" type="text/javascript"><\/script>' +
-				'<script src="' + CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js') + '" type="text/javascript"><\/script></div>',
+				'<jahia:resource href="' + CKEDITOR.getUrl(plugin.path + 'chart.css') + '" rel="stylesheet" type="css">' +
+				'<jahia:resource src="' + CKEDITOR.getUrl(plugin.path + 'lib/chart.min.js') + '" type="javascript"><\/jahia:resource>' +
+				'<jahia:resource src="' + CKEDITOR.getUrl(plugin.path + 'lib/widget2chart.js') + '" type="javascript"><\/jahia:resource></div>',
 				// In order to provide styles (classes) for this widget through config.stylesSet we need to explicitly define the stylable elements.
 				styleableElements: 'div',
 				// Name to be displayed in the elements path (at the bottom of CKEditor),
